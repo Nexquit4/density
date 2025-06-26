@@ -124,8 +124,12 @@ def format_density_report():
     for symbol, data in items:
         density = data.get('density')
         if density:
+            
             lifetime_sec = now - density['start_time']
             if lifetime_sec >= STABLE_SECONDS:
+                if density['usd'] < 200000:
+                    continue  # Пропустить, если сумма меньше 200 000
+
                 mark_price = get_mark_price(symbol)
                 if mark_price is None:
                     continue
